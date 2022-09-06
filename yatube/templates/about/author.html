@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  Об авторе проекта
+{% endblock %}
+{% block content %}
+<div class="card mb"">
+  <div class="row g-0">
+    <div class="col-md-2">
+      <img src="{% static 'img/about/me.jpg' %}" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <p class="card-text">ФИО: <small class="text-muted">Белозеров Вадим Анатольевич</small></p>
+        <p class="card-text">Дата рождения: <small class="text-muted">09.05.1987</small></p>
+        <p class="card-text">Образование: <small class="text-muted">Высшее,
+          УГТУ-УПИ, инженер по специальности "Информационные системы и технологии"</small></p>
+        <p class="card-text">Ученая степень/звание: <small class="text-muted">к.т.н., советник РАРАН</small></p>
+        <p class="card-text">Город: <small class="text-muted">Нижний Тагил Свердловской области</small></p>
+        <p class="card-text">Общая информация: <small class="text-muted">Информация будет дополняться</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} 
