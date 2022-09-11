@@ -1,10 +1,10 @@
 from django.urls import reverse
 
 from posts.models import Comment, Post
-from posts.tests.fixture import Fixture
+from posts.tests.mixins.FormsMixin import FormsMixin
 
 
-class TaskPostsFormTests(Fixture):
+class TaskPostsFormTests(FormsMixin):
     def test_create_post(self):
         """Проверка создания формы PostForm."""
         posts_count = 1

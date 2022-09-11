@@ -1,10 +1,10 @@
 from django.conf import settings
 
-from .fixture import Fixture
+from .mixins.GeneralMixin import GeneralMixin
 from ..models import Group, Post
 
 
-class TaskModelTest(Fixture):
+class TaskModelTest(GeneralMixin):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

@@ -4,9 +4,10 @@ from django.urls import reverse
 
 from posts.models import Follow, Group, Post
 from posts.tests.fixture import Fixture
+from posts.tests.mixins.ViewsMixin import ViewsMixin
 
 
-class TaskCacheViewPage(Fixture):
+class TaskCacheViewPage(ViewsMixin):
     def test_cache_index_page(self):
         """Проверка хранения кэширования страницы index."""
         response = self.guest_client.get(reverse("posts:index"))
@@ -23,26 +24,7 @@ class TaskCacheViewPage(Fixture):
         self.assertNotEqual(posts_after_add, posts_new, "Кэш не очищен.")
 
 
-class TaskPagesPaginatorTests(Fixture):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        post_list = []
-        for i in range(settings.TEST_COUNT_POSTS):
-            post_list.append(
-                Post(
-                    text=f"Тестовый текст №{i}",
-                    author=cls.author,
-                    group=cls.group,
-                )
-            )
-        cls.post = Post.objects.bulk_create(post_list)
-        cls.url_names = [
-            reverse("posts:index"),
-            reverse("posts:group_list", kwargs={"slug": cls.group.slug}),
-            reverse("posts:profile", kwargs={"username": cls.author.username}),
-        ]
-
+class TaskPagesPaginatorTests(ViewsMixin):
     def test_paginator_pages(self):
         """Проверка paginator на страницах index, group_list, profile"""
         for reverse_name in self.url_names:

@@ -2,10 +2,10 @@ from http import HTTPStatus
 
 from django.urls import reverse
 
-from posts.tests.fixture import Fixture
+from posts.tests.mixins.UrlsMixin import UrlsMixin
 
 
-class TaskURLPostTests(Fixture):
+class TaskURLPostTests(UrlsMixin):
     def test_access_edit_post_other_author(self):
         """Проверка доступности редактирования поста другому автору"""
         response = self.not_author_client.get(
@@ -19,7 +19,7 @@ class TaskURLPostTests(Fixture):
 
         self.assertEqual(
             response.url,
-            reverse("posts:post_detail", kwargs={"post_id": self.post.pk}),
+            reverse("posts:post_edit", kwargs={"post_id": self.post.pk}),
             "Отображается другая страница, не соответствующая ТЗ",
         )
 
