@@ -77,6 +77,10 @@ class Comment(CreatedModel):
         verbose_name="Текст комментария", help_text="Введите комментарий поста"
     )
 
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
@@ -93,6 +97,8 @@ class Follow(models.Model):
     )
 
     class Meta:
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'author'],
