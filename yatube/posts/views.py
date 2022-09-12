@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -8,7 +7,6 @@ from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
 from posts.forms import CommentForm, PostForm
 from posts.models import Comment, Follow, Group, Post, User
-from posts.utils import get_paginator
 
 
 # def index(request):
@@ -284,7 +282,7 @@ class FollowIndexView(LoginRequiredMixin, ListView):
 
 
 class ProfileFollowView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, **kwargs):
         author = get_object_or_404(User, username=self.kwargs["username"])
         if request.user != author:
             Follow.objects.get_or_create(user=request.user, author=author)
@@ -301,7 +299,7 @@ class ProfileFollowView(LoginRequiredMixin, View):
 
 
 class ProfileUnfollowView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, **kwargs):
         author = get_object_or_404(User, username=self.kwargs["username"])
         if request.user != author:
             Follow.objects.filter(user=request.user, author=author).delete()

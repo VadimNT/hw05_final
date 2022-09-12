@@ -3,7 +3,6 @@ from django.core.cache import cache
 from django.urls import reverse
 
 from posts.models import Follow, Group, Post
-from posts.tests.fixture import Fixture
 from posts.tests.mixins.ViewsMixin import ViewsMixin
 
 
@@ -25,6 +24,20 @@ class TaskCacheViewPage(ViewsMixin):
 
 
 class TaskPagesPaginatorTests(ViewsMixin):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        post_list = []
+        for i in range(settings.TEST_COUNT_POSTS):
+            post_list.append(
+                Post(
+                    text=f"Тестовый текст №{i}",
+                    author=cls.author,
+                    group=cls.group,
+                )
+            )
+        cls.post_paginator = Post.objects.bulk_create(post_list)
+
     def test_paginator_pages(self):
         """Проверка paginator на страницах index, group_list, profile"""
         for reverse_name in self.url_names:
@@ -46,7 +59,7 @@ class TaskPagesPaginatorTests(ViewsMixin):
                 )
 
 
-class TaskPostsPagesTests(Fixture):
+class TaskPostsPagesTests(ViewsMixin):
     def test_pages_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
         for reverse_name, template in self.templates_pages_names.items():

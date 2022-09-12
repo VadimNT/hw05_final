@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from django.conf import settings
+from django import forms
 from django.test import Client
 from django.urls import reverse
 
@@ -12,16 +12,6 @@ class ViewsMixin(GeneralMixin, TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        post_list = []
-        for i in range(settings.TEST_COUNT_POSTS):
-            post_list.append(
-                Post(
-                    text=f"Тестовый текст №{i}",
-                    author=cls.author,
-                    group=cls.group,
-                )
-            )
-        cls.post_paginator = Post.objects.bulk_create(post_list)
         cls.url_names = [
             reverse("posts:index"),
             reverse("posts:group_list", kwargs={"slug": cls.group.slug}),
@@ -42,6 +32,10 @@ class ViewsMixin(GeneralMixin, TestCase):
                 "posts:post_edit", kwargs={"post_id": cls.post.pk}
             ): "posts/create_post.html",
             reverse("posts:post_create"): "posts/create_post.html",
+        }
+        cls.form_fields = {
+            "text": forms.fields.CharField,
+            "group": forms.fields.ChoiceField,
         }
 
     def setUp(self):
